@@ -15,8 +15,5 @@
 #define CIRCUITPY_BOARD_SPI         (1)
 #define CIRCUITPY_BOARD_SPI_PIN     {{.clock = &pin_GPIO8, .mosi = &pin_GPIO10, .miso = &pin_GPIO7}}
 
-#define CIRCUITPY_BOARD_UART        (1)
-#define CIRCUITPY_BOARD_UART_PIN    {{.tx = &pin_GPIO21, .rx = &pin_GPIO20}}
-
 // For entering safe mode
 #define CIRCUITPY_BOOT_BUTTON       (&pin_GPIO3)
