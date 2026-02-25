@@ -12,3 +12,4 @@
 # end of Component config
 
 # end of Espressif IoT Development Framework Configuration
+CONFIG_BT_ENABLED=n
