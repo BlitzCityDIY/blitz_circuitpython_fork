@@ -11,9 +11,8 @@
 #define MICROPY_HW_BOARD_NAME       "Xteink X4"
 #define MICROPY_HW_MCU_NAME         "ESP32-C3"
 
-// comment to trigger actions
-// #define CIRCUITPY_BOARD_SPI         (1)
-// #define CIRCUITPY_BOARD_SPI_PIN     {{.clock = &pin_GPIO8, .mosi = &pin_GPIO10, .miso = &pin_GPIO7}}
+#define CIRCUITPY_BOARD_SPI         (1)
+#define CIRCUITPY_BOARD_SPI_PIN     {{.clock = &pin_GPIO8, .mosi = &pin_GPIO10, .miso = &pin_GPIO7}}
 
 // For entering safe mode
 #define CIRCUITPY_BOOT_BUTTON       (&pin_GPIO3)
