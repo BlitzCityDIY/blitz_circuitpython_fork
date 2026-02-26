@@ -8,8 +8,9 @@ BUILD ?= build-$(BOARD)
 
 TRANSLATION ?= en_US
 
+.DEFAULT_GOAL := $(BUILD)/zephyr-cp/zephyr/zephyr.elf
 
-.PHONY: $(BUILD)/zephyr-cp/zephyr/zephyr.elf flash recover debug run clean menuconfig all clean-all test fetch-port-submodules
+.PHONY: $(BUILD)/zephyr-cp/zephyr/zephyr.elf flash recover debug run run-sim clean menuconfig all clean-all test fetch-port-submodules
 
 $(BUILD)/zephyr-cp/zephyr/zephyr.elf:
 	python cptools/pre_zephyr_build_prep.py $(BOARD)
@@ -24,6 +25,9 @@ $(BUILD)/firmware.hex: $(BUILD)/zephyr-cp/zephyr/zephyr.elf
 $(BUILD)/firmware.exe: $(BUILD)/zephyr-cp/zephyr/zephyr.elf
 	cp $(BUILD)/zephyr-cp/zephyr/zephyr.exe $@
 
+$(BUILD)/firmware.uf2: $(BUILD)/zephyr-cp/zephyr/zephyr.elf
+	cp $(BUILD)/zephyr-cp/zephyr/zephyr.uf2 $@
+
 flash: $(BUILD)/zephyr-cp/zephyr/zephyr.elf
 	west flash -d $(BUILD)
 
@@ -35,6 +39,16 @@ debug: $(BUILD)/zephyr-cp/zephyr/zephyr.elf
 
 run: $(BUILD)/firmware.exe
 	$^
+
+run-sim:
+	$(MAKE) BOARD=native_native_sim BUILD=build-native_native_sim build-native_native_sim/firmware.exe
+	truncate -s 2M build-native_native_sim/flash.bin
+	mformat -i build-native_native_sim/flash.bin ::
+	@if [ -d CIRCUITPY ] && [ -n "$$(find CIRCUITPY -mindepth 1 -print -quit)" ]; then \
+		echo "Populating build-native_native_sim/flash.bin from ./CIRCUITPY"; \
+		mcopy -s -i build-native_native_sim/flash.bin CIRCUITPY/* ::; \
+	fi
+	build-native_native_sim/firmware.exe --flash=build-native_native_sim/flash.bin --flash_rm -wait_uart -rt
 
 menuconfig:
 	west build --sysbuild -d $(BUILD) -t menuconfig
