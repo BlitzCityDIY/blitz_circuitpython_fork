@@ -29,20 +29,19 @@ const uint8_t ssd1677_display_start_sequence[] = {
     0x0C, 0x00, 0x05, 0xAE, 0xC7, 0xC3, 0xC0, 0x40,
 
     // Driver Output Control: 479 gates (HEIGHT-1 = 0x01DF)
-    0x01, 0x00, 0x03, 0xDF, 0x01, 0x00,
+    0x01, 0x00, 0x03, 0xDF, 0x01, 0x03,
 
     // Data Entry Mode: X increment, Y increment
-    0x11, 0x00, 0x01, 0x03,
+    0x11, 0x00, 0x01, 0x02,
 
     // Border Waveform Control
     0x3C, 0x00, 0x01, 0x01,
 
-    // Set RAM X Address Start/End (in pixels, little-endian): 0 to 799
-    // The SSD1677 uses pixel-based X addressing, NOT byte-based.
+    // Set RAM X Address Start/End: 0 to 799
     // X start = 0 (LE: 0x00, 0x00), X end = 799 (LE: 0x1F, 0x03)
     0x44, 0x00, 0x04, 0x00, 0x00, 0x1F, 0x03,
 
-    // Set RAM Y Address Start/End (little-endian): 0 to 479
+    // Set RAM Y Address Start/End: 0 to 479
     0x45, 0x00, 0x04, 0x00, 0x00, 0xDF, 0x01,
 
     // Set RAM X Counter to 0
@@ -102,7 +101,7 @@ void board_init(void) {
     args.height = 480;
     args.ram_width = 800;
     args.ram_height = 480;
-    args.rotation = 180;
+    args.rotation = 0;
     args.write_black_ram_command = 0x24;
     args.black_bits_inverted = true;
     args.refresh_sequence = ssd1677_display_refresh_sequence;
