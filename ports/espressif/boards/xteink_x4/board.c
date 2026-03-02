@@ -40,19 +40,19 @@ const uint8_t ssd1677_display_start_sequence[] = {
     // Border Waveform Control
     0x3C, 0x00, 0x01, 0x01,
 
-    // Set RAM X Address Start/End: 0 to 799
+    // Set RAM X Address Start/End (in pixels, little-endian): 0 to 799
+    // The SSD1677 uses pixel-based X addressing, NOT byte-based.
     // X start = 0 (LE: 0x00, 0x00), X end = 799 (LE: 0x1F, 0x03)
     0x44, 0x00, 0x04, 0x00, 0x00, 0x1F, 0x03,
 
-    // Set RAM Y Address Start/End: 479 to 0
-    // Y start = 479 (LE: 0xDF, 0x01), Y end = 0 (LE: 0x00, 0x00)
+    // Set RAM Y Address Start/End (little-endian): 0 to 479
     0x45, 0x00, 0x04, 0x00, 0x00, 0xDF, 0x01,
 
     // Set RAM X Counter to 0
     0x4E, 0x00, 0x02, 0x00, 0x00,
 
     // Set RAM Y Counter to 0
-    0x4F, 0x00, 0x02, 0xDF, 0x01,
+    0x4F, 0x00, 0x02, 0x00, 0x00,
 
     // Auto Write BW RAM (clear to white)
     0x46, DELAY, 0x01, 0xF7, 0xFF,                   // + wait 255ms
@@ -105,7 +105,7 @@ void board_init(void) {
     args.height = 480;
     args.ram_width = 800;
     args.ram_height = 480;
-    args.rotation = 180;
+    args.rotation = 0;
     args.write_black_ram_command = 0x24;
     args.black_bits_inverted = true;
     args.refresh_sequence = ssd1677_display_refresh_sequence;
@@ -114,7 +114,7 @@ void board_init(void) {
     args.busy_pin = &pin_GPIO6;
     args.busy_state = true;              // BUSY is active HIGH on SSD1677
     args.seconds_per_frame = 5.0;
-    args.grayscale = true;
+    args.grayscale = false;
     args.two_byte_sequence_length = true;
     args.address_little_endian = true;
     common_hal_epaperdisplay_epaperdisplay_construct(display, &args);
