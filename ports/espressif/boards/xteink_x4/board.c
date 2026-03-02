@@ -40,12 +40,12 @@ const uint8_t ssd1677_display_start_sequence[] = {
     // Border Waveform Control
     0x3C, 0x00, 0x01, 0x01,
 
-    // Set RAM X Address Start/End (in pixels): 0 to 799
-    // X start = 0x0000, X end = 0x031F (799)
+    // Set RAM X Address Start/End (in pixels, little-endian): 0 to 799
+    // X start = 0 (LE: 0x00, 0x00), X end = 799 (LE: 0x1F, 0x03)
     0x44, 0x00, 0x04, 0x00, 0x00, 0x1F, 0x03,
 
     // Set RAM Y Address Start/End: 0 to 479
-    // Y start = 0x0000, Y end = 0x01DF (479)
+    // Y start = 0 (LE: 0x00, 0x00), Y end = 479 (LE: 0xDF, 0x01)
     0x45, 0x00, 0x04, 0x00, 0x00, 0xDF, 0x01,
 
     // Set RAM X Counter to 0
@@ -106,12 +106,7 @@ void board_init(void) {
     args.ram_width = 800;
     args.ram_height = 480;
     args.rotation = 0;
-    args.set_column_window_command = 0x44;
-    args.set_row_window_command = 0x45;
-    args.set_current_column_command = 0x4E;
-    args.set_current_row_command = 0x4F;
     args.write_black_ram_command = 0x24;
-    args.write_color_ram_command = 0x26;
     args.refresh_sequence = ssd1677_display_refresh_sequence;
     args.refresh_sequence_len = sizeof(ssd1677_display_refresh_sequence);
     args.refresh_time = 1.6;             // ~1600ms full refresh
