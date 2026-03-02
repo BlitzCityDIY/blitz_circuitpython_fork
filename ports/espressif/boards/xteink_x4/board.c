@@ -29,10 +29,7 @@ const uint8_t ssd1677_display_start_sequence[] = {
     0x0C, 0x00, 0x05, 0xAE, 0xC7, 0xC3, 0xC0, 0x40,
 
     // Driver Output Control: 479 gates (HEIGHT-1 = 0x01DF)
-    // Byte 1: (480-1) & 0xFF = 0xDF
-    // Byte 2: (480-1) >> 8  = 0x01
-    // Byte 3: 0x02 (GD=0, SM=1, TB=0)
-    0x01, 0x00, 0x03, 0xDF, 0x01, 0x02,
+    0x01, 0x00, 0x03, 0xDF, 0x01, 0x00,
 
     // Data Entry Mode: X increment, Y increment
     0x11, 0x00, 0x01, 0x03,
@@ -105,7 +102,7 @@ void board_init(void) {
     args.height = 480;
     args.ram_width = 800;
     args.ram_height = 480;
-    args.rotation = 0;
+    args.rotation = 180;
     args.write_black_ram_command = 0x24;
     args.black_bits_inverted = true;
     args.refresh_sequence = ssd1677_display_refresh_sequence;
