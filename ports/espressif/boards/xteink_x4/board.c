@@ -107,7 +107,7 @@ void board_init(void) {
     args.ram_height = 480;
     args.rotation = 180;
     args.write_black_ram_command = 0x24;
-	args.black_bits_inverted = true;
+    args.black_bits_inverted = true;
     args.refresh_sequence = ssd1677_display_refresh_sequence;
     args.refresh_sequence_len = sizeof(ssd1677_display_refresh_sequence);
     args.refresh_time = 1.6;             // ~1600ms full refresh
