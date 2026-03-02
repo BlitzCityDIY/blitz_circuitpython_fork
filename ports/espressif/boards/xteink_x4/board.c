@@ -35,7 +35,7 @@ const uint8_t ssd1677_display_start_sequence[] = {
     0x01, 0x00, 0x03, 0xDF, 0x01, 0x02,
 
     // Data Entry Mode: X increment, Y increment
-    0x11, 0x00, 0x01, 0x02,
+    0x11, 0x00, 0x01, 0x03,
 
     // Border Waveform Control
     0x3C, 0x00, 0x01, 0x01,
@@ -46,7 +46,7 @@ const uint8_t ssd1677_display_start_sequence[] = {
 
     // Set RAM Y Address Start/End: 479 to 0
     // Y start = 479 (LE: 0xDF, 0x01), Y end = 0 (LE: 0x00, 0x00)
-    0x45, 0x00, 0x04, 0xDF, 0x01, 0x00, 0x00,
+    0x45, 0x00, 0x04, 0x00, 0x00, 0xDF, 0x01,
 
     // Set RAM X Counter to 0
     0x4E, 0x00, 0x02, 0x00, 0x00,
@@ -105,8 +105,9 @@ void board_init(void) {
     args.height = 480;
     args.ram_width = 800;
     args.ram_height = 480;
-    args.rotation = 0;
+    args.rotation = 180;
     args.write_black_ram_command = 0x24;
+	args.black_bits_inverted = true;
     args.refresh_sequence = ssd1677_display_refresh_sequence;
     args.refresh_sequence_len = sizeof(ssd1677_display_refresh_sequence);
     args.refresh_time = 1.6;             // ~1600ms full refresh
