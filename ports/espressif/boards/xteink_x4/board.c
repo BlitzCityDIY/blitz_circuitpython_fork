@@ -111,7 +111,7 @@ void board_init(void) {
     args.busy_pin = &pin_GPIO6;
     args.busy_state = true;              // BUSY is active HIGH on SSD1677
     args.seconds_per_frame = 5.0;
-    args.grayscale = true;
+    args.grayscale = false;
     args.two_byte_sequence_length = true;
     args.address_little_endian = true;
     common_hal_epaperdisplay_epaperdisplay_construct(display, &args);
