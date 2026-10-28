@@ -152,7 +152,11 @@ uint16_t common_hal_analogio_analogin_get_value(analogio_analogin_obj_t *self) {
     }
     #endif
     adc_oneshot_del_unit(adc_handle);
-    return voltage * ((1 << 16) - 1) / 3300;
+    uint32_t value = (uint32_t)voltage * 65535 / 3300;
+    if (value > 65535) {
+        value = 65535;
+    }
+    return (uint16_t)value;
 }
 
 float common_hal_analogio_analogin_get_reference_voltage(analogio_analogin_obj_t *self) {
